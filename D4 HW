@@ -1,0 +1,56 @@
+// Step 1: ERD for tinyLinks
+// User
+// - user_id (Primary Key)
+// - username
+// - password
+// - email
+
+// Url
+// - url_id (Primary Key)
+// - long_url
+// - short_code
+// - user_id (Foreign Key)
+
+// Relationships:
+// - One User can have Many URLs (One-to-Many)
+
+// Step 2: Build a server with Express.js
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// Step 3: Receive and Send JSON Data
+app.post('/endpoint', (req, res) => {
+  const jsonData = req.body;
+  // Process the data
+
+  // Send JSON response
+  res.json({ message: 'Response message' });
+});
+
+// Step 4: Create Routes
+const UserController = require('./controllers/UserController');
+const UrlController = require('./controllers/UrlController');
+
+// Users
+app.post('/users', UserController.createUser);
+app.get('/users/:userId', UserController.getUser);
+app.put('/users/:userId', UserController.updateUser);
+app.delete('/users/:userId', UserController.deleteUser);
+
+// URLs
+app.post('/urls', UrlController.createUrl);
+app.get('/urls/:urlId', UrlController.getUrl);
+app.put('/urls/:urlId', UrlController.updateUrl);
+app.delete('/urls/:urlId', UrlController.deleteUrl);
+
+// Step 5: Push to GitHub
+// Initialize Git repository, commit code, push to GitHub
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
